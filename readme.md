@@ -1,0 +1,1 @@
+A simple program for solving the New York Times letterboxed game in two words.
