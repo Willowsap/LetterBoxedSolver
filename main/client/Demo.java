@@ -2,13 +2,13 @@ package client;
 
 import java.util.Scanner;
 
-import nyt.LetterBoxedSolverOpt;
+import nyt.LetterBoxedSolver;
 
 public class Demo
 {
     public static void main(String[] args)
     {
-        LetterBoxedSolverOpt lbs = new LetterBoxedSolverOpt("main/nyt/dictionary.txt");
+        LetterBoxedSolver lbs = new LetterBoxedSolver("main/nyt/dictionary.txt");
         String[] answers = lbs.solve(getLetters());
         for (String answer : answers) System.out.println(answer);
     }
