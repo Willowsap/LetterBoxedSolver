@@ -243,11 +243,20 @@ public class LetterBoxedSolver
         }
         if (range[0] != -1)
         {
-            range[1] = range[0];
-            for(; range[1] + 1 >= 0 && range[1] + 1 < dictionary.length
-                && dictionary[range[1] + 1].startsWith(prefix); range[1]++);
-        }
+            // fun way
+            // for(range[1] = range[0]; range[1] + 1 >= 0 && range[1] + 1 < dictionary.length
+            //   && dictionary[range[1] + 1].startsWith(prefix); range[1]++);
 
+            // more intuitive way
+            range[1] = range[0];
+            while (dictionary[range[1]].startsWith(prefix))
+            {
+                if (range[1] + 1 < dictionary.length)
+                {
+                    range[1]++;
+                }
+            }
+        }
         return range;
     }
 
