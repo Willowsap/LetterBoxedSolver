@@ -16,7 +16,7 @@ public class LetterBoxedSolver
     /**
      * The list of valid words. This list includes words not accepted by NYT.
      */
-    String[] dictionary;
+    private String[] dictionary;
 
     /**
      * A list to contain all two word answers.
