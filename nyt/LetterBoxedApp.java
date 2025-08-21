@@ -206,7 +206,7 @@ public class LetterBoxedApp
      */
     private void findStartingLettersBestSolutions()
     {
-        ArrayList<String> answers = solver.findBestSolutions(true);
+        ArrayList<String> answers = solver.findBestSolutions(false);
         System.out.println("The starting letters of the shortest solutions are:");
         for (String answer : answers)
         {
@@ -220,7 +220,7 @@ public class LetterBoxedApp
      */
     private void findConnectingLettersBestSolutions()
     {
-        ArrayList<String> answers = solver.findBestSolutions(true);
+        ArrayList<String> answers = solver.findBestSolutions(false);
         System.out.println("The connecting letters of the shortest solutions are:");
         for (String answer : answers)
         {
