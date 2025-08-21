@@ -194,9 +194,9 @@ public class LetterBoxedApp
     {
         System.out.println("This feature is not yet implemented.");
         // System.out.println("Select your question:\n"
-        //     + "1) Are there solutions in which a single word contains certain letters?\n"
-        //     + "2) Does a solution with 3 words exist?\n"
-        //     + "3) Does a solution with 4 words exist?\n"
+        //     + "1) Are there best solutions in which a single word contains certain letters?\n"
+        //     + "2) Are there best solutions which a word of a given length is used?\n"
+        //     + "3) Are there best solutions where the letters are split in a certain way?\n"
         //     + "4) Return to previous menu\n");
     }
 
