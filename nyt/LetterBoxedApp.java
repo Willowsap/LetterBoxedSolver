@@ -36,11 +36,12 @@ public class LetterBoxedApp
                 + "0) Set puzzle\n"
                 + "1) Find solutions\n"
                 + "2) Find words\n"
-                + "3) Quit\n";
+                + "3) Get hints\n"
+                + "4) Quit\n";
         boolean hasQuit = false;
         while (!hasQuit)
         {
-            switch (getNumber(0, 3, mainMenu))
+            switch (getNumber(0, 4, mainMenu))
             {
                 case 0:
                     getPuzzle();
@@ -52,6 +53,9 @@ public class LetterBoxedApp
                     findWords();
                     break;
                 case 3:
+                    getHints();
+                    break;
+                case 4:
                     System.out.println("Goodbye!");
                     hasQuit = true;           
             }
@@ -143,6 +147,118 @@ public class LetterBoxedApp
                     break;
             }
         }
+    }
+
+    private void getHints()
+    {
+        if (!solver.hasLetters())
+        {
+            System.out.println("You need to enter a puzzle first.");
+            return;
+        }
+        int choice = getNumber(1, 6,
+            "Select your hint\n"
+            + "1) Number solutions of a given number of words\n"
+            + "2) Number of letters in the shortest solution\n"
+            + "3) Starting letters of best solutions\n"
+            + "4) Connecting letters of best solutions\n"
+            + "5) Binary solution questions\n"
+            + "6) Return to main menu\n");
+        switch (choice)
+        {
+            case 1:
+                findNumSolutions();
+                break;
+            case 2:
+                findLengthBestSolutions();
+                break;
+            case 3:
+                findStartingLettersBestSolutions();
+                break;
+            case 4:
+                findConnectingLettersBestSolutions();
+                break;
+            case 5:
+                binarySolutionQuestions();
+                break;
+        }
+    }
+
+    /**
+     * Allows the user to ask yes/no questions about certain
+     * aspects of the solutions.
+     * 
+     * This feature is not yet implemented.
+     */
+    private void binarySolutionQuestions()
+    {
+        System.out.println("This feature is not yet implemented.");
+        // System.out.println("Select your question:\n"
+        //     + "1) Are there solutions in which a single word contains certain letters?\n"
+        //     + "2) Does a solution with 3 words exist?\n"
+        //     + "3) Does a solution with 4 words exist?\n"
+        //     + "4) Return to previous menu\n");
+    }
+
+    /**
+     * Finds the starting letters of the shortest solutions.
+     * Prints the letters to the console.
+     */
+    private void findStartingLettersBestSolutions()
+    {
+        ArrayList<String> answers = solver.findBestSolutions(true);
+        System.out.println("The starting letters of the shortest solutions are:");
+        for (String answer : answers)
+        {
+            System.out.println(answer.charAt(0));
+        }
+    }
+
+    /**
+     * Finds the connecting letters between the words of the shortest solutions.
+     * Prints the letters to the console.
+     */
+    private void findConnectingLettersBestSolutions()
+    {
+        ArrayList<String> answers = solver.findBestSolutions(true);
+        System.out.println("The connecting letters of the shortest solutions are:");
+        for (String answer : answers)
+        {
+            String[] words = answer.split(" - ");
+            for (int i = 0; i < words.length - 1; i++)
+            {
+                System.out.print(words[i].charAt(words[i].length() - 1));
+                if (i < words.length - 2)
+                {
+                    System.out.print(", ");
+                }
+            }
+            System.out.println();
+        }
+    }
+
+    /**
+     * Finds the length of the shortest solution.
+     * Prints the length to the console.
+     */
+    private void findLengthBestSolutions()
+    {
+        System.out.printf(
+            "The shortest solution is %d letters long\n",
+            solver.findBestSolutions(true).get(0).replaceAll("[^a-z]", "").length());
+    }
+
+    
+    /**
+     * Finds the number of solutions with a given number of words.
+     * Prints the number to the console.
+     */
+    private void findNumSolutions()
+    {
+        int numWords = getNumber(1, 5,
+            "How many words would you like in the solutions?\n");
+        System.out.printf("There are %d %d-word solutions\n",
+            solver.findSolutions(numWords).size(), numWords);
     }
 
     /**
