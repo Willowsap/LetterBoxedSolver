@@ -8,15 +8,16 @@ import java.util.Scanner;
 
 public class LetterBoxedApp
 {
+    public static final String DICTIONARY_PATH = "nyt/edited_dict.txt";
+
     public static final int NUM_SIDES = 4;
     public static final int NUM_LETTERS_PER_SIDE = 3;
-
     private final LetterBoxedSolver solver;
     private final Scanner kb;
 
     public LetterBoxedApp()
     {
-        solver = new LetterBoxedSolver("nyt/dictionary.txt");
+        solver = new LetterBoxedSolver(DICTIONARY_PATH);
         kb = new Scanner(System.in);
     }
 
@@ -347,7 +348,7 @@ public class LetterBoxedApp
         {
             System.out.print("Enter the substrings / letters you want "
                 + "the words to contain, separated by commas (ex: tr,o,w)\n");
-            input = kb.nextLine().replaceAll("\\s+", "").toLowerCase();
+            input = getUserInput().replaceAll("\s+", "").toLowerCase();
             if (!input.matches("[a-z,]+"))
             {
                 System.out.println("Your input must only contain letters and commas");
@@ -429,7 +430,7 @@ public class LetterBoxedApp
         {
             System.out.print(prompt);
             try {
-                input = Integer.parseInt(this.kb.nextLine());
+                input = Integer.parseInt(getUserInput());
                 if (input < min || input > max)
                 {
                     System.out.printf("%d is too %s.\n", input, input < min ? "low" : "high");
@@ -459,7 +460,7 @@ public class LetterBoxedApp
         while (!validInput)
         {
             System.out.print(prompt);
-            input = kb.nextLine().replaceAll("\\s+", "").toLowerCase();
+            input = getUserInput().replaceAll("\s+", "").toLowerCase();
             if (!input.matches("[a-z]+"))
             {
                 System.out.println("Your input must only contain letters and contain at least one letter.");
@@ -494,7 +495,7 @@ public class LetterBoxedApp
             {
                 case 1:
                     System.out.println("What is the path to the file?"); 
-                    success = getPuzzleFromFile(kb.nextLine());
+                    success = getPuzzleFromFile(getUserInput());
                     break;
                 case 2:
                     success = getPuzzleFromKeyboard();
@@ -524,7 +525,8 @@ public class LetterBoxedApp
                 String message = validateRow(side);
                 if (message.equals("valid"))
                 {
-                    puzzle[i] = side.toCharArray();
+                    //puzzle[i] = side.toCharArray();
+                    setSide(puzzle, side, i);
                 }
                 else
                 {
@@ -586,6 +588,21 @@ public class LetterBoxedApp
     }
 
     /**
+     * Sets a side of the puzzle.
+     * 
+     * @param puzzle the puzzle to modify
+     * @param side the string containing the letters for the side
+     * @param sideNum the index of the side to set
+     */
+    private void setSide(char[][] puzzle, String side, int sideNum)
+    {
+        for (int i = 0; i < NUM_LETTERS_PER_SIDE; i++)
+        {
+            puzzle[sideNum][i] = side.charAt(i);
+        }
+    }
+
+    /**
      * Validates is a string is a valid puzzle side.
      * 
      * @param side - the side to validate
@@ -606,13 +623,35 @@ public class LetterBoxedApp
     }
 
     /**
+     * Gets raw input from the user.
+     * Shuts down the program if the user enters "exit!".
+     * 
+     * @return the input from the user.
+     */
+    private String getUserInput()
+    {
+        String input = kb.nextLine();
+        if (input.equals("exit!"))
+        {
+            System.out.println("Goodbye!");
+            System.exit(0);
+        }
+        return input;
+    }
+
+    /**
      * Runs the application.
      * 
      * @param args - optionally proved the path to a file to initialize the puzzle.
      */
     public static void main(String[] args)
     {
-        new LetterBoxedApp().run(
-            args.length < 1 ? null : args[0]);
+        try {
+            new LetterBoxedApp().run(
+                args.length < 1 ? null : args[0]);
+        } catch (NoSuchElementException e) {
+            System.out.println("Keyboard input closed.");
+            System.out.println("You can always type 'exit!' to quit at any time. Goodbye!");
+        }
     }
 }

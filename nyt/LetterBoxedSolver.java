@@ -17,6 +17,7 @@ import java.util.regex.Pattern;
  */
 public class LetterBoxedSolver
 {
+    enum Output {ALPHABETICAL, LEXICOGRAPHICAL, LEFT, RIGHT};
     /**
      * The list of valid words.
      * Alphabetized
@@ -44,6 +45,7 @@ public class LetterBoxedSolver
      * Alphabetized
      */
     private ArrayList<String> words;
+
 
     /**
      * Creates a new LetterBoxedSolver.
